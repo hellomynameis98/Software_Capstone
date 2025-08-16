@@ -1,0 +1,34 @@
+package com.example.myapplication.database;
+
+import android.content.Context;
+
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+
+import com.example.myapplication.dao.ExcursionDAO;
+import com.example.myapplication.dao.VacationDAO;
+import com.example.myapplication.entities.Excursions;
+import com.example.myapplication.entities.Vacations;
+
+@Database(entities = {Vacations.class, Excursions.class}, version = 1, exportSchema = false)
+public abstract class VacationDatabaseBuilder extends RoomDatabase {
+    public abstract VacationDAO vacationDAO();
+
+    public abstract ExcursionDAO excursionDAO();
+
+    public static volatile VacationDatabaseBuilder INSTANCE;
+
+    static VacationDatabaseBuilder getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (VacationDatabaseBuilder.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                                    VacationDatabaseBuilder.class, "vacation_database")
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+}
