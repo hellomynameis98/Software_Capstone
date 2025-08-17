@@ -85,6 +85,21 @@ public class Repository {
         return mAllExcursions;
     }
 
+    public List<Excursions> getAllExcursions() {
+        databaseExecutor.execute(() -> {
+            mAllExcursions = mExcursionDAO.getAllExcursions();
+        });
+        // if it was synchronous, you don't need this sleep test
+        try{
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return mAllExcursions;
+    }
+
+
+
     public void insert(Excursions excursion) {
         databaseExecutor.execute(() -> {
             mExcursionDAO.insert(excursion);

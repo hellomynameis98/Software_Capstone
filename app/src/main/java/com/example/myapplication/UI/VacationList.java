@@ -12,12 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.database.Repository;
 import com.example.myapplication.entities.Excursions;
 import com.example.myapplication.entities.Vacations;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class VacationList extends AppCompatActivity {
     private Repository repository;
@@ -40,14 +44,32 @@ public class VacationList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        repository=new Repository(getApplication());
+        List<Vacations> allVacations=repository.getAllVacations();
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
 
-        System.out.println(getIntent().getStringExtra("test"));
+       // System.out.println(getIntent().getStringExtra("test"));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_product_list, menu);
         return true;
+    }
+
+    protected void onResume() {
+        super.onResume();
+        List<Vacations> allVacations=repository.getAllVacations();
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        final VacationAdapter vacationAdapter = new VacationAdapter(this);
+        recyclerView.setAdapter(vacationAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vacationAdapter.setVacations(allVacations);
+
     }
 
     @Override
@@ -59,9 +81,9 @@ public class VacationList extends AppCompatActivity {
             repository.insert(vacation);
             vacation = new Vacations(0, "SLC", "Less Great Hotel");
             repository.insert(vacation);
-            Excursions excursion=new Excursions(0,"skiing",100,1);
+            Excursions excursion=new Excursions(0,"skiing",1,100);
             repository.insert(excursion);
-            excursion=new Excursions(0,"hiking",200,1);
+            excursion=new Excursions(0,"hiking",2,200);
             repository.insert(excursion);
 
 

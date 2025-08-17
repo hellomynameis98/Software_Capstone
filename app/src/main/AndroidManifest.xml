@@ -22,6 +22,11 @@
             android:label="Vacations"
             android:parentActivityName=".UI.MainActivity"/>
         <activity
+            android:name=".UI.ExcursionDetails"
+            android:exported="false"
+            android:label="Excursion Details"
+            android:parentActivityName=".UI.VacationDetails"/>
+        <activity
             android:name=".UI.MainActivity"
             android:exported="true"
             android:label="Main Activity">
