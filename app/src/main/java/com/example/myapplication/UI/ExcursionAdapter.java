@@ -37,6 +37,9 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     int position = getAbsoluteAdapterPosition();
                     final Excursions current = mExcursions.get(position);
                     Intent intent = new Intent(context, ExcursionDetails.class);
+
+
+
                     intent.putExtra("id", current.getExcursionID());
                     intent.putExtra("Vacation name", current.getExcursionName());
                     intent.putExtra("price", current.getPrice());

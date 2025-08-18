@@ -49,4 +49,5 @@ public class Excursions {
     public void setProductID(int productID) {
         this.productID = productID;
     }
+
 }
