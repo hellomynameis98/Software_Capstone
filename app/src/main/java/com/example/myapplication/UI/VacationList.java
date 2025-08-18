@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,9 +76,9 @@ public class VacationList extends AppCompatActivity {
         if (item.getItemId() == R.id.mysample) {
             repository=new Repository(getApplication());
             //Toast.makeText(VacationList.this,"Put in sample data",Toast.LENGTH_LONG).show();
-            Vacations vacation = new Vacations(0, "Honolulu", "Great Hotel");
+            Vacations vacation = new Vacations(0, "Honolulu", "Great Hotel","8/17/2025" ,"8/18/2025");
             repository.insert(vacation);
-            vacation = new Vacations(0, "SLC", "Less Great Hotel");
+            vacation = new Vacations(0, "SLC", "Less Great Hotel","8/19/2025","8/20/2025");
             repository.insert(vacation);
             Excursions excursion=new Excursions(0,"skiing",150,0);
             repository.insert(excursion);

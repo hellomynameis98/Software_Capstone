@@ -93,12 +93,12 @@ public class VacationDetails extends AppCompatActivity {
             if (productID == -1) {
                 if(repository.getAllVacations().size()==0) productID=1;
                 else productID=repository.getAllVacations().get(repository.getAllVacations().size()-1).getVacationID()+1;
-                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString());
+                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(), , );
                 repository.insert(vacation);
                 this.finish();
             }
             else{
-                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString());
+                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(), , );
                 repository.update(vacation);
                 this.finish();
                 return true;
