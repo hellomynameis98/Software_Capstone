@@ -22,8 +22,11 @@ import com.example.myapplication.entities.Excursions;
 import com.example.myapplication.entities.Vacations;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
@@ -32,6 +35,9 @@ public class VacationDetails extends AppCompatActivity {
     int vacationID;
     Vacations currentVacation;
     int numExcursions;
+
+    final Calendar myCalendarStart = Calendar.getInstance();
+    final Calendar myCalendarEnd = Calendar.getInstance();
 
 
     EditText editName;
@@ -88,17 +94,23 @@ public class VacationDetails extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.vacationsave) {
+
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            String startDateString = sdf.format(myCalendarStart.getTime());
+            String endDateString = sdf.format(myCalendarEnd.getTime());
+
             Vacations vacation;
             Repository repository = new Repository(getApplication());
             if (productID == -1) {
                 if(repository.getAllVacations().size()==0) productID=1;
                 else productID=repository.getAllVacations().get(repository.getAllVacations().size()-1).getVacationID()+1;
-                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(), , );
+                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(), startDateString,endDateString );
                 repository.insert(vacation);
                 this.finish();
             }
             else{
-                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(), , );
+                vacation = new Vacations(productID, editName.getText().toString(), editHotel.getText().toString(),startDateString ,endDateString );
                 repository.update(vacation);
                 this.finish();
                 return true;
