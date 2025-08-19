@@ -98,7 +98,7 @@ public class ExcursionDetails extends AppCompatActivity {
             }
         });
 
-        //sets the calendar instance to whatever is selected
+
         excursionDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -122,14 +122,14 @@ public class ExcursionDetails extends AppCompatActivity {
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) { // This is where we started
-        //navigation for user to go to Vacation Details page
+    public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == android.R.id.home) {
             this.finish();
             return true;
         }
 
-        //if the user selects the Save Excursion menu option...
+
         if (item.getItemId() == R.id.excursionsave) {
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
@@ -151,11 +151,11 @@ public class ExcursionDetails extends AppCompatActivity {
                     return true;
                 } else {
                     Excursions excursion;
-                    //if the excursion does not already exist...
+
                     if (excursionID == -1) {
-                        //if the excursion list is empty, make this excursion its first excursion
+
                         if (repository.getAllExcursions().size() == 0) excursionID = 1;
-                            //else make this excursion the last in the list
+
                         else
                             excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
                         excursion = new Excursions(excursionID, editName.getText().toString(), vacationID, excursionDateString);
@@ -173,7 +173,7 @@ public class ExcursionDetails extends AppCompatActivity {
             }
             return true;
         }
-        //if the user selects the menu option Delete Excursion...
+
         if (item.getItemId() == R.id.excursiondelete) {
             for (Excursions excursion : repository.getAllExcursions()) {
                 if (excursion.getExcursionID() == excursionID) currentExcursion = excursion;
@@ -183,7 +183,7 @@ public class ExcursionDetails extends AppCompatActivity {
             ExcursionDetails.this.finish();
         }
 
-        //if the user selects Set Alarm
+
         if (item.getItemId() == R.id.excursionalert) {
             String dateFromScreen = editExcursionDate.getText().toString();
             String alert = "Excursion " + name + " is today";

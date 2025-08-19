@@ -54,6 +54,8 @@ public class VacationDetails extends AppCompatActivity {
     final Calendar myCalendarStart = Calendar.getInstance();
     final Calendar myCalendarEnd = Calendar.getInstance();
 
+    List<Excursions> filteredExcursions = new ArrayList<>();
+
     Random rand = new Random();
     int numAlert = rand.nextInt(99999);
 
@@ -196,7 +198,7 @@ public class VacationDetails extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
         numAlert = rand.nextInt(99999);
-        System.out.println("numAlert Vacation = " + numAlert);
+        System.out.println("numAlert Vacation = " + numAlert + myDate);
     }
 
 
@@ -266,7 +268,7 @@ public class VacationDetails extends AppCompatActivity {
             for (Excursions excursion : repository.getAllExcursions()) {
                 if (excursion.getVacationID() == vacationID) ++numExcursions;
             }
-            //if the vacation has any associated excursions, prevent deletion of the vacation, otherwise delete it
+
             if (numExcursions == 0) {
                 repository.delete(currentVacation);
                 Toast.makeText(VacationDetails.this, currentVacation.getVacationName() + " was deleted", Toast.LENGTH_LONG).show();
@@ -292,6 +294,30 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
+        if (item.getItemId() == R.id.share) {
+            Intent sentIntent = new Intent();
+            sentIntent.setAction(Intent.ACTION_SEND);
+            sentIntent.putExtra(Intent.EXTRA_TITLE, "Vacation Shared");
+            StringBuilder shareData = new StringBuilder();
+            shareData.append("Vacation title: " + editName.getText().toString() + "\n");
+            shareData.append("Hotel name: " + editHotel.getText().toString() + "\n");
+            shareData.append("Start Date: " + editStartDate.getText().toString() + "\n");
+            shareData.append("End Date: " + editEndDate.getText().toString() + "\n");
+            for (int i = 0; i < filteredExcursions.size(); i++) {
+                shareData.append("Excursion " + (i + 1) + ": " + filteredExcursions.get(i).getExcursionName() + "\n");
+                shareData.append("Excursion " + (i + 1) + " Date: " + filteredExcursions.get(i).getExcursionDate() + "\n");
+            }
+            sentIntent.putExtra(Intent.EXTRA_TEXT, shareData.toString());
+            sentIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sentIntent, null);
+            startActivity(shareIntent);
+            return true;
+        }
+
+
+
+
+
         if (item.getItemId() == R.id.alertfull) {
             String dateFromScreen = editStartDate.getText().toString();
             String alert = "Vacation " + name + " is starting";
@@ -303,9 +329,13 @@ public class VacationDetails extends AppCompatActivity {
             return true;
         }
 
+
+
         return super.onOptionsItemSelected(item);
 
     }
+
+
 
 
 
@@ -314,7 +344,6 @@ public class VacationDetails extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //finds the excursions associated with the vacation and populates the RecyclerView list with it
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerView);
         repository = new Repository(getApplication());
         final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);

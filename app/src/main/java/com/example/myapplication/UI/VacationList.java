@@ -75,7 +75,6 @@ public class VacationList extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.mysample) {
             repository=new Repository(getApplication());
-            //Toast.makeText(VacationList.this,"Put in sample data",Toast.LENGTH_LONG).show();
             Vacations vacation = new Vacations(0, "Honolulu", "Great Hotel","8/21/25" ,"8/30/25");
             repository.insert(vacation);
             vacation = new Vacations(0, "SLC", "Less Great Hotel","8/10/25","8/20/25");
