@@ -29,6 +29,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
 }
 
 dependencies {
@@ -39,7 +44,13 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
     implementation(libs.mediarouter)
+
     testImplementation(libs.junit)
+
+
+    testImplementation("org.robolectric:robolectric:4.13")
+    testImplementation("androidx.test:core:1.6.1")
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
